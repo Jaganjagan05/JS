@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+let totalAmount = 0;
+
+console.log("Menu:");
+console.log("1: Pizza - Rs. 100");
+console.log("2: Burger - Rs. 200");
+console.log("3: Pasta - Rs. 300");
+console.log("4: Fries - Rs. 400");
+console.log("5: Ice Cream - Rs. 50");
+
+for (let i = 0; i < 5; i++) {
+    let choice = parseInt(prompt("Enter item number to buy (1-5) or 0 to stop:"));
+
+    if (choice === 0) {
+        break; 
+    }
+
+    switch (choice) {
+        case 1:
+            totalAmount += 100;
+            break;
+        case 2:
+            totalAmount += 200;
+            console.log("You added Burger - Rs. 150");
+            break;
+        case 3:
+            totalAmount += 300;
+            console.log("You added Pasta - Rs. 180");
+            break;
+        case 4:
+            totalAmount += 400;
+            console.log("You added Fries - Rs. 100");
+            break;
+        case 5:
+            totalAmount += 50;
+            console.log("You added Ice Cream - Rs. 90");
+            break;
+        default:
+            console.log("Invalid choice, please select a valid item.");
+            break;
+    }
+}
+
+// Display the total amount
+console.log(`Total amount: Rs. ${totalAmount}`);
+
+// Apply discount if the total amount is greater than or equal to 500
+if (totalAmount >= 500) {
+    let discountedTotal = totalAmount * 0.9; // 10% discount
+    console.log(`You get a 10% discount! Your total after discount is Rs. ${discountedTotal}`);
+} else {
+    console.log("No discount applied.");
+}
+</script>
+</body>
+</html>
