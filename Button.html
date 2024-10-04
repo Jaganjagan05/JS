@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>BUTTON COLOR CHANGEING USING DOM</h1>
+    <style>
+        body{
+            text-align: center;
+        }
+        button{
+            margin: 50px;
+            font-size: 40px;
+            border-radius: 10%;
+            
+        }
+    </style>
+    <div class="button">
+        <button id = b1 onclick="B1()"> RED</button>
+        <button id = b2 onclick="B2()"> BLUE</button>
+        <button id = b3 onclick="B3()"> Green</button><br>
+        <button id = b4 onclick="B4()"> Reset</button>
+    
+    </div>
+    
+    <script>
+        function B1() {
+            document.body.style.backgroundColor = "red";
+            document.getElementById("b1").style.backgroundColor='red';
+            document.getElementById("b2").style.backgroundColor='';
+            document.getElementById("b3").style.backgroundColor='';
+        }
+        function B2() {
+            document.body.style.backgroundColor = "blue";
+            document.getElementById("b1").style.backgroundColor='';
+            document.getElementById("b3").style.backgroundColor='';
+            document.getElementById("b2").style.backgroundColor='blue';
+        }
+        function B3() {
+            document.body.style.backgroundColor = "green";
+            document.getElementById("b2").style.backgroundColor='';
+            document.getElementById("b3").style.backgroundColor='green';
+            document.getElementById("b1").style.backgroundColor='';
+        }
+        function B4() {
+            document.body.style.backgroundColor = "";
+            document.getElementById("b1").style.backgroundColor='';
+            document.getElementById("b2").style.backgroundColor='';
+            
+            document.getElementById("b3").style.backgroundColor='';
+        }
+    </script>
+    
+</body>
+</html>
