@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Schedule Manager</title>
+</head>
+<body>
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+}
+
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+input[type="text"], input[type="time"] {
+  width: 30%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: seagreen;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: green;
+}
+
+.schedule-container {
+  margin-top: 20px;
+}
+
+#scheduleList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.schedule-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f1f1f1;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.remove-btn:hover {
+  background-color: #c82333;
+}
+
+    </style>
+
+  <div class="container">
+    <h1>Train Schedule Manager</h1>
+
+    <div class="form-container">
+      <input type="text" id="trainName" placeholder="Train Name" required>
+      <input type="time" id="arrivalTime" required>
+      <input type="time" id="departureTime" required>
+      <button onclick="addTrain()">Add Train</button>
+    </div>
+
+    <div class="schedule-container">
+      <h2>Train Schedule</h2>
+      <ul id="scheduleList">
+        <!-- Train schedule will be displayed here -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Train class to hold details
+class Train {
+  constructor(name, arrivalTime, departureTime) {
+    this.name = name;
+    this.arrivalTime = arrivalTime;
+    this.departureTime = departureTime;
+  }
+}
+
+// Train Schedule manager
+class TrainSchedule {
+  constructor() {
+    this.trains = [];
+  }
+
+  addTrain(train) {
+    this.trains.push(train);
+    this.renderSchedule();
+  }
+
+  removeTrain(index) {
+    this.trains.splice(index, 1);
+    this.renderSchedule();
+  }
+
+  renderSchedule() {
+    const scheduleList = document.getElementById('scheduleList');
+    scheduleList.innerHTML = '';
+
+    if (this.trains.length === 0) {
+      scheduleList.innerHTML = '<li>No trains in the schedule</li>';
+      return;
+    }
+
+    this.trains.forEach((train, index) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('schedule-item');
+
+      listItem.innerHTML = `
+        <span>${train.name} - Arrival: ${train.arrivalTime}, Departure: ${train.departureTime}</span>
+        <button class="remove-btn" onclick="removeTrain(${index})">Remove</button>
+      `;
+
+      scheduleList.appendChild(listItem);
+    });
+  }
+}
+
+// Initialize the train schedule
+const trainSchedule = new TrainSchedule();
+
+// Add train to the schedule
+function addTrain() {
+  const name = document.getElementById('trainName').value;
+  const arrivalTime = document.getElementById('arrivalTime').value;
+  const departureTime = document.getElementById('departureTime').value;
+
+  if (!name || !arrivalTime || !departureTime) {
+    alert('Please fill in all fields.');
+    return;
+  }
+
+  const train = new Train(name, arrivalTime, departureTime);
+  trainSchedule.addTrain(train);
+
+  // Clear input fields
+  document.getElementById('trainName').value = '';
+  document.getElementById('arrivalTime').value = '';
+  document.getElementById('departureTime').value = '';
+}
+
+// Remove train from the schedule
+function removeTrain(index) {
+  trainSchedule.removeTrain(index);
+}
+
+  </script>
+
+</body>
+</html>

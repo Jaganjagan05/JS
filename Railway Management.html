@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Train Station Capacity Tracker</title>
+</head>
+<body>
+    <style>
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+li span {
+  font-weight: bold;
+}
+
+.capacity-warning {
+  color: red;
+  font-weight: bold;
+}
+
+.update-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+.update-btn:hover {
+  background-color: #218838;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  float: right;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+</style>
+  <div class="container">
+    <h1>Train Station Capacity Tracker</h1>
+
+    <form id="station-form">
+      <label for="station-name">Station Name:</label>
+      <input type="text" id="station-name" required>
+
+      <label for="max-capacity">Maximum Capacity:</label>
+      <input type="number" id="max-capacity" min="1" required>
+
+      <label for="current-trains">Number of Trains:</label>
+      <input type="number" id="current-trains" min="0" required>
+
+      <button type="submit">Add Station</button>
+    </form>
+
+    <h2>Stations</h2>
+    <ul id="station-list"></ul>
+  </div>
+  <script>
+    document.getElementById("station-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const stationName = document.getElementById("station-name").value;
+  const maxCapacity = parseInt(document.getElementById("max-capacity").value);
+  const currentTrains = parseInt(document.getElementById("current-trains").value);
+
+  addStation(stationName, maxCapacity, currentTrains);
+
+  // Reset form
+  document.getElementById("station-form").reset();
+});
+
+function addStation(name, maxCapacity, currentTrains) {
+  const stationList = document.getElementById("station-list");
+
+  const listItem = document.createElement("li");
+  listItem.innerHTML = `<span>Station:</span> ${name}, <span>Capacity:</span> ${maxCapacity}, <span>Trains:</span> <span id="trains-count">${currentTrains}</span>`;
+
+  // Check if capacity exceeded
+  if (currentTrains > maxCapacity) {
+    const warning = document.createElement("span");
+    warning.classList.add("capacity-warning");
+    warning.innerText = " (Capacity Exceeded!)";
+    listItem.appendChild(warning);
+  }
+
+  // Create update button
+  const updateButton = document.createElement("button");
+  updateButton.innerText = "Update Trains";
+  updateButton.classList.add("update-btn");
+  updateButton.addEventListener("click", function() {
+    const newTrainCount = prompt("Enter new train count:", currentTrains);
+    if (newTrainCount !== null) {
+      updateTrains(listItem, maxCapacity, parseInt(newTrainCount));
+    }
+  });
+
+  // Create delete button
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "Delete";
+  deleteButton.classList.add("delete-btn");
+  deleteButton.addEventListener("click", function() {
+    stationList.removeChild(listItem);
+  });
+
+  listItem.appendChild(updateButton);
+  listItem.appendChild(deleteButton);
+  stationList.appendChild(listItem);
+}
+
+function updateTrains(listItem, maxCapacity, newTrainCount) {
+  const trainsCountElement = listItem.querySelector("#trains-count");
+  trainsCountElement.innerText = newTrainCount;
+
+  // Remove any existing warning
+  const warning = listItem.querySelector(".capacity-warning");
+  if (warning) {
+    listItem.removeChild(warning);
+  }
+
+  // Add warning if capacity is exceeded
+  if (newTrainCount > maxCapacity) {
+    const warning = document.createElement("span");
+    warning.classList.add("capacity-warning");
+    warning.innerText = " (Capacity Exceeded!)";
+    listItem.appendChild(warning);
+  }
+}
+
+  </script>
+</body>
+</html>
